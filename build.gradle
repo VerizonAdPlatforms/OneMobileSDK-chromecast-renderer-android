@@ -1,0 +1,48 @@
+/*
+ * Copyright (c) 2016 One by Aol : Publishers. All rights reserved.
+ */
+
+repositories {
+    jcenter()
+    google()
+}
+
+buildscript {
+    apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/env-props.gradle'
+
+    ext {
+
+        BUILD_CONFIG_CONSTS = [
+                'CAST_RENDERER'       : "com.onemobilesdk.videorenderer.cast@${GIT_BASED_VERSION}"
+        ]
+        // Javadoc configuration
+        JAVADOC_TITLE = "OneMobileSDK controls Javadoc"
+
+        // Maven
+        GROUP_ID = 'com.aol.one.publishers.android'
+        ARTIFACT_ID = 'controls'
+        LIBRARY_VERSION = GIT_BASED_VERSION
+    }
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath ANDROID_GRADLE_PLUGIN
+        classpath ANDROID_MAVEN_PLUGIN
+        classpath KOTLIN_PLUGIN
+        classpath GIT_PUBLISH_PLUGIN
+    }
+}
+
+apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/android.gradle'
+apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/javadoc.gradle'
+apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/sources.gradle'
+apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/github-maven.gradle'
+
+dependencies {
+    compile 'com.google.android.gms:play-services-cast-framework:11.0.4'
+    compile 'com.android.support:mediarouter-v7:25.3.1'
+    compile project(path: ':renderer')
+}
