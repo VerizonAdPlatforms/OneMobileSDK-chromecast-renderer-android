@@ -11,10 +11,6 @@ buildscript {
     apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/env-props.gradle'
 
     ext {
-
-        BUILD_CONFIG_CONSTS = [
-                'CAST_RENDERER'       : "com.onemobilesdk.videorenderer.cast@${GIT_BASED_VERSION}"
-        ]
         // Javadoc configuration
         JAVADOC_TITLE = "OneMobileSDK controls Javadoc"
 

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ImageView;
 
 import com.aol.mobile.sdk.renderer.VideoRenderer;
 import com.aol.mobile.sdk.renderer.viewmodel.VideoVM;
@@ -21,7 +22,7 @@ public final class CastRenderer implements VideoRenderer {
     @NonNull
     private RemoteMediaClient remoteMediaClient;
     @NonNull
-    private View view;
+    private ImageView view;
     @Nullable
     private String videoUrl;
 
@@ -33,7 +34,10 @@ public final class CastRenderer implements VideoRenderer {
     private boolean isPlaybackStarted;
 
     public CastRenderer(Context context) {
-        view = new View(context);
+        view = new ImageView(context);
+        view.setImageResource(R.drawable.quantum_ic_cast_white_36);
+        view.setScaleType(ImageView.ScaleType.CENTER);
+        view.setBackgroundColor(0xFF000000);
         remoteMediaClient = CastContext.getSharedInstance(context).getSessionManager()
                 .getCurrentCastSession().getRemoteMediaClient();
         remoteMediaClient.addListener(new RemoteMediaClient.Listener() {
