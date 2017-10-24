@@ -30,7 +30,7 @@ public class CastOptionsProvider implements OptionsProvider {
         String receiverApplicationId = null;
         try {
             ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            receiverApplicationId = ai.metaData.getString("com.aol.mobile.sdk.player.cast.ReceiverApplicationId");
+            receiverApplicationId = ai.metaData.getString("com.aol.mobile.sdk.chromecast.ReceiverApplicationId");
         } catch (PackageManager.NameNotFoundException e) {
         }
         if (receiverApplicationId == null){

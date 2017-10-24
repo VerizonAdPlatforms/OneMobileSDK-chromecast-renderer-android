@@ -40,5 +40,5 @@ apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-and
 dependencies {
     compile 'com.google.android.gms:play-services-cast-framework:11.0.4'
     compile 'com.android.support:mediarouter-v7:25.3.1'
-    compile project(path: ':renderer')
+    compile project(':sdk')
 }

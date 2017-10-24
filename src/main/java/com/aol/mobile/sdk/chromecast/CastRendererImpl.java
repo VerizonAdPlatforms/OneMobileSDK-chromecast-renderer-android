@@ -8,7 +8,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 
-import com.aol.mobile.sdk.renderer.VideoRenderer;
+import com.aol.mobile.sdk.renderer.CastRenderer;
 import com.aol.mobile.sdk.renderer.viewmodel.VideoVM;
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
@@ -16,7 +16,7 @@ import com.google.android.gms.cast.MediaStatus;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 
-public final class CastRenderer implements VideoRenderer {
+public final class CastRendererImpl implements CastRenderer {
     @Nullable
     protected VideoVM.Callbacks callbacks;
     @NonNull
@@ -33,7 +33,7 @@ public final class CastRenderer implements VideoRenderer {
     private boolean shouldPlay;
     private boolean isPlaybackStarted;
 
-    public CastRenderer(Context context) {
+    public CastRendererImpl(Context context) {
         view = new ImageView(context);
         view.setImageResource(R.drawable.quantum_ic_cast_white_36);
         view.setScaleType(ImageView.ScaleType.CENTER);
@@ -45,8 +45,8 @@ public final class CastRenderer implements VideoRenderer {
             public void onStatusUpdated() {
                 assert remoteMediaClient != null;
                 int playbackState = remoteMediaClient.getPlayerState();
-                if (CastRenderer.this.playbackState != playbackState) {
-                    CastRenderer.this.playbackState = playbackState;
+                if (CastRendererImpl.this.playbackState != playbackState) {
+                    CastRendererImpl.this.playbackState = playbackState;
 
                     switch (playbackState) {
                         case MediaStatus.PLAYER_STATE_IDLE:
@@ -113,12 +113,8 @@ public final class CastRenderer implements VideoRenderer {
     }
 
     @Override
-    public void dispose() {
-        callbacks = null;
-    }
-
-    @Override
-    public void render(@NonNull VideoVM videoVM) {
+    @NonNull
+    public VideoVM render(@NonNull VideoVM videoVM) {
         renderCallbacks(videoVM.callbacks);
         if (videoVM.videoUrl != null && !videoVM.videoUrl.equals(videoUrl)) {
             playVideo(videoVM);
@@ -130,7 +126,7 @@ public final class CastRenderer implements VideoRenderer {
             replay(videoVM);
         }
         if (playbackState == MediaStatus.PLAYER_STATE_UNKNOWN || playbackState == MediaStatus.PLAYER_STATE_IDLE)
-            return;
+            return updateVideoVM(videoVM);
         isPlaybackStarted = true;
         if (videoVM.shouldPlay) {
             resumePlayback();
@@ -144,6 +140,12 @@ public final class CastRenderer implements VideoRenderer {
         if (videoVM.isMuted != isMuted) {
             setMute(videoVM.isMuted);
         }
+        return updateVideoVM(videoVM);
+    }
+
+    private VideoVM updateVideoVM(@NonNull VideoVM videoVM) {
+        videoVM.shouldPlay = false;
+        return videoVM;
     }
 
     private void playVideo(VideoVM videoVM) {
