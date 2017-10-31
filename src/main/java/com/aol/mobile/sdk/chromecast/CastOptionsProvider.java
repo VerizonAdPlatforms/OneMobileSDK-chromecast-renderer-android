@@ -34,7 +34,7 @@ public class CastOptionsProvider implements OptionsProvider {
         } catch (PackageManager.NameNotFoundException e) {
         }
         if (receiverApplicationId == null){
-            receiverApplicationId = "4F8B3483"; // Aol default cast id
+            receiverApplicationId = "F53593E4"; // Aol default cast id
         }
 
         CastOptions castOptions = new CastOptions.Builder()
