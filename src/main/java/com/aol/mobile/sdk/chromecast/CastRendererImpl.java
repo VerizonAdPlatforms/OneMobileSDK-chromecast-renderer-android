@@ -219,9 +219,12 @@ public final class CastRendererImpl implements CastRenderer {
 
     private static String getUrlType(String url) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        String type = "videos/mp4";
+        String type = null;
         if (extension != null) {
             type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        if (type == null){
+            type = "videos/mp4";
         }
         return type;
     }
