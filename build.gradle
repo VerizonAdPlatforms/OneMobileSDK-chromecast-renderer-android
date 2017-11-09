@@ -3,24 +3,15 @@
  */
 
 repositories {
-    jcenter()
     google()
+    jcenter()
 }
 
 buildscript {
     apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/env-props.gradle'
 
-    ext {
-        // Javadoc configuration
-        JAVADOC_TITLE = "OneMobileSDK controls Javadoc"
-
-        // Maven
-        GROUP_ID = 'com.aol.one.publishers.android'
-        ARTIFACT_ID = 'controls'
-        LIBRARY_VERSION = GIT_BASED_VERSION
-    }
-
     repositories {
+        google()
         jcenter()
     }
 
@@ -32,13 +23,9 @@ buildscript {
     }
 }
 
-apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/android.gradle'
-apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/javadoc.gradle'
-apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/sources.gradle'
-apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/github-maven.gradle'
-
-dependencies {
-    implementation 'com.google.android.gms:play-services-cast-framework:11.4.2'
-    implementation 'com.android.support:mediarouter-v7:27.0.0'
-    implementation project(':sdk')
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
 }
