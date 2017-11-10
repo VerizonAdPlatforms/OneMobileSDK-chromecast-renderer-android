@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.aol.mobile.sdk.renderer.CastRenderer;
 import com.aol.mobile.sdk.renderer.viewmodel.VideoVM;
 import com.google.android.gms.cast.MediaInfo;
+import com.google.android.gms.cast.MediaLoadOptions;
 import com.google.android.gms.cast.MediaMetadata;
 import com.google.android.gms.cast.MediaStatus;
 import com.google.android.gms.cast.framework.CastContext;
@@ -159,7 +160,10 @@ public final class CastRendererImpl implements CastRenderer {
                     .setContentType(getUrlType(videoVM.videoUrl))
                     .setMetadata(movieMetadata)
                     .build();
-            remoteMediaClient.load(mediaInfo, false, videoVM.currentPosition == null ? 0 : videoVM.currentPosition);
+            MediaLoadOptions.Builder loadOptions = new MediaLoadOptions.Builder();
+            loadOptions.setAutoplay(false);
+            loadOptions.setPlayPosition(videoVM.currentPosition == null ? 0 : videoVM.currentPosition);
+            remoteMediaClient.load(mediaInfo, loadOptions.build());
             playbackState = MediaStatus.PLAYER_STATE_UNKNOWN;
             isPlaybackStarted = false;
             shouldPlay = false;
@@ -219,12 +223,12 @@ public final class CastRendererImpl implements CastRenderer {
 
     private static String getUrlType(String url) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension.equalsIgnoreCase("m3u8")) {
+            return "application/x-mpegURL";
+        }
         String type = null;
         if (extension != null) {
             type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-        }
-        if (type == null){
-            type = "videos/mp4";
         }
         return type;
     }
