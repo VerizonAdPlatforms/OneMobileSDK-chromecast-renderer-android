@@ -46,9 +46,14 @@ public class OneCastButtonFactory {
         return background;
     }
 
-    public static void addCastButtonListener(@NonNull Context context, final @NonNull CastButtonListener listener) {
+    private SessionManagerListener sessionManagerListener;
+
+    public void addCastButtonListener(@NonNull Context context, final CastButtonListener listener) {
         CastContext castContext = CastContext.getSharedInstance(context);
-        castContext.getSessionManager().addSessionManagerListener(new SessionManagerListener<CastSession>() {
+        if (sessionManagerListener != null) {
+            castContext.getSessionManager().removeSessionManagerListener(sessionManagerListener, CastSession.class);
+        }
+        sessionManagerListener = new SessionManagerListener<CastSession>() {
             @Override
             public void onSessionStarting(CastSession session) {
             }
@@ -89,7 +94,8 @@ public class OneCastButtonFactory {
             public void onSessionSuspended(CastSession session, int i) {
             }
 
-        }, CastSession.class);
+        };
+        castContext.getSessionManager().addSessionManagerListener(sessionManagerListener, CastSession.class);
         CastSession session = castContext.getSessionManager().getCurrentCastSession();
         if (session != null && session.isConnected()) {
             if (listener != null) {

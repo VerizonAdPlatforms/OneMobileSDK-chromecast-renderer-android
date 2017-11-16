@@ -8,8 +8,6 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 
-import com.aol.mobile.sdk.renderer.CastRenderer;
-import com.aol.mobile.sdk.renderer.viewmodel.VideoVM;
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaLoadOptions;
 import com.google.android.gms.cast.MediaMetadata;
@@ -19,7 +17,7 @@ import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 
 public final class CastRendererImpl implements CastRenderer {
     @Nullable
-    protected VideoVM.Callbacks callbacks;
+    protected CastVideoVM.Callbacks callbacks;
     @NonNull
     private RemoteMediaClient remoteMediaClient;
     @NonNull
@@ -96,7 +94,7 @@ public final class CastRendererImpl implements CastRenderer {
         });
     }
 
-    private void renderCallbacks(final @NonNull VideoVM.Callbacks callbacks) {
+    private void renderCallbacks(final @NonNull CastVideoVM.Callbacks callbacks) {
         if (this.callbacks != callbacks) {
             this.callbacks = callbacks;
             remoteMediaClient.addProgressListener(new RemoteMediaClient.ProgressListener() {
@@ -115,7 +113,7 @@ public final class CastRendererImpl implements CastRenderer {
 
     @Override
     @NonNull
-    public VideoVM render(@NonNull VideoVM videoVM) {
+    public void render(@NonNull CastVideoVM videoVM) {
         renderCallbacks(videoVM.callbacks);
         if (videoVM.videoUrl != null && !videoVM.videoUrl.equals(videoUrl)) {
             playVideo(videoVM);
@@ -127,7 +125,7 @@ public final class CastRendererImpl implements CastRenderer {
             replay(videoVM);
         }
         if (playbackState == MediaStatus.PLAYER_STATE_UNKNOWN || playbackState == MediaStatus.PLAYER_STATE_IDLE)
-            return updateVideoVM(videoVM);
+            return;
         isPlaybackStarted = true;
         if (videoVM.shouldPlay) {
             resumePlayback();
@@ -141,15 +139,9 @@ public final class CastRendererImpl implements CastRenderer {
         if (videoVM.isMuted != isMuted) {
             setMute(videoVM.isMuted);
         }
-        return updateVideoVM(videoVM);
     }
 
-    private VideoVM updateVideoVM(@NonNull VideoVM videoVM) {
-        videoVM.shouldPlay = false;
-        return videoVM;
-    }
-
-    private void playVideo(VideoVM videoVM) {
+    private void playVideo(CastVideoVM videoVM) {
         if (videoVM != null) {
             this.videoUrl = videoVM.videoUrl;
 
@@ -182,7 +174,7 @@ public final class CastRendererImpl implements CastRenderer {
         }
     }
 
-    private void replay(VideoVM videoVM) {
+    private void replay(CastVideoVM videoVM) {
         playVideo(videoVM);
         if (callbacks != null) {
             callbacks.onSeekPerformed();

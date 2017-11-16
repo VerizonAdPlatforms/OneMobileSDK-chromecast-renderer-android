@@ -32,9 +32,6 @@ public class CastOptionsProvider implements OptionsProvider {
             receiverApplicationId = ai.metaData.getString("com.aol.mobile.sdk.chromecast.ReceiverApplicationId");
         } catch (PackageManager.NameNotFoundException e) {
         }
-        if (receiverApplicationId == null){
-            receiverApplicationId = "F53593E4"; // Aol default cast id
-        }
 
         CastOptions castOptions = new CastOptions.Builder()
                 .setReceiverApplicationId(receiverApplicationId)
