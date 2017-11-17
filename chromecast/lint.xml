@@ -1,0 +1,7 @@
+<!--
+  ~ Copyright (c) 2016 One by Aol : Publishers. All rights reserved.
+  -->
+
+<lint>
+    <issue id="InflateParams" severity="ignore"/>
+</lint>
