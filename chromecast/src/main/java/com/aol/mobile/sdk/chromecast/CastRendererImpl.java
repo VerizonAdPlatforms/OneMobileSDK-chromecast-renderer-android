@@ -31,6 +31,7 @@ public final class CastRendererImpl implements CastRenderer {
     private boolean isMuted = false;
     private boolean shouldPlay;
     private boolean isPlaybackStarted;
+    private boolean isActive;
 
     public CastRendererImpl(Context context) {
         view = new ImageView(context);
@@ -43,6 +44,7 @@ public final class CastRendererImpl implements CastRenderer {
             @Override
             public void onStatusUpdated() {
                 assert remoteMediaClient != null;
+                if (!isActive) return;
                 int playbackState = remoteMediaClient.getPlayerState();
                 if (CastRendererImpl.this.playbackState != playbackState) {
                     CastRendererImpl.this.playbackState = playbackState;
@@ -53,6 +55,9 @@ public final class CastRendererImpl implements CastRenderer {
                             callbacks.onVideoPlaybackFlagUpdated(false);
                             if (remoteMediaClient.getIdleReason() == MediaStatus.IDLE_REASON_FINISHED && isPlaybackStarted) {
                                 isPlaybackStarted = false;
+                                if (duration != 0){
+                                    callbacks.onVideoPositionUpdated(duration);
+                                }
                                 callbacks.onVideoEnded();
                             }
                             break;
@@ -100,6 +105,7 @@ public final class CastRendererImpl implements CastRenderer {
             remoteMediaClient.addProgressListener(new RemoteMediaClient.ProgressListener() {
                 @Override
                 public void onProgressUpdated(long p, long d) {
+                    if (!isActive) return;
                     if (duration != d) {
                         duration = d;
                         callbacks.onDurationReceived(duration);
@@ -115,11 +121,13 @@ public final class CastRendererImpl implements CastRenderer {
     @NonNull
     public void render(@NonNull CastVideoVM videoVM) {
         renderCallbacks(videoVM.callbacks);
-        if (videoVM.videoUrl != null && !videoVM.videoUrl.equals(videoUrl)) {
+        boolean hasBecomeActive = !isActive && videoVM.isActive;
+        if (videoVM.videoUrl != null && (!videoVM.videoUrl.equals(videoUrl) || hasBecomeActive) && videoVM.shouldPlay) {
             playVideo(videoVM);
         } else if (videoVM.videoUrl == null && videoUrl != null) {
             playVideo(null);
         }
+        isActive = videoVM.isActive;
         Long seekPos = videoVM.seekPosition;
         if (!isPlaybackStarted && seekPos != null) {
             replay(videoVM);

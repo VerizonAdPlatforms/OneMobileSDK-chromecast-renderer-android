@@ -14,6 +14,7 @@ public class CastVideoVM {
     public boolean isMuted;
     public boolean shouldPlay;
     public boolean isLive;
+    public boolean isActive;
     @Nullable
     public Callbacks callbacks;
 
