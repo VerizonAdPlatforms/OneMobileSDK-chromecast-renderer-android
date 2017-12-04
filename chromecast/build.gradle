@@ -7,7 +7,7 @@ ext {
     ARTIFACT_ID = 'chromecast'
     LIBRARY_VERSION = GIT_BASED_VERSION
 
-    MINIFY_LIB = true
+    MINIFY_LIB = false
 }
 
 apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/android.gradle'
