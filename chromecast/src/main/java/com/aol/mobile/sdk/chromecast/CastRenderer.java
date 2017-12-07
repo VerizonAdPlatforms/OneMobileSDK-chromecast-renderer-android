@@ -5,7 +5,6 @@ import android.view.View;
 
 public interface CastRenderer {
 
-    @NonNull
     void render(@NonNull CastVideoVM videoVM);
 
     @NonNull

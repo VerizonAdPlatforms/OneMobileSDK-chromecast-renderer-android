@@ -16,8 +16,11 @@ import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 
 public final class CastRendererImpl implements CastRenderer {
+
+    @NonNull
+    private final Context context;
     @Nullable
-    protected CastVideoVM.Callbacks callbacks;
+    private CastVideoVM.Callbacks callbacks;
     @NonNull
     private RemoteMediaClient remoteMediaClient;
     @NonNull
@@ -33,7 +36,8 @@ public final class CastRendererImpl implements CastRenderer {
     private boolean isPlaybackStarted;
     private boolean isActive;
 
-    public CastRendererImpl(Context context) {
+    public CastRendererImpl(@NonNull  Context context) {
+        this.context = context;
         view = new ImageView(context);
         view.setImageResource(R.drawable.quantum_ic_cast_white_36);
         view.setScaleType(ImageView.ScaleType.CENTER);
@@ -55,7 +59,7 @@ public final class CastRendererImpl implements CastRenderer {
                             callbacks.onVideoPlaybackFlagUpdated(false);
                             if (remoteMediaClient.getIdleReason() == MediaStatus.IDLE_REASON_FINISHED && isPlaybackStarted) {
                                 isPlaybackStarted = false;
-                                if (duration != 0){
+                                if (duration != 0) {
                                     callbacks.onVideoPositionUpdated(duration);
                                 }
                                 callbacks.onVideoEnded();
@@ -120,6 +124,10 @@ public final class CastRendererImpl implements CastRenderer {
     @Override
     @NonNull
     public void render(@NonNull CastVideoVM videoVM) {
+        if (!videoVM.isCasting) {
+            CastContext.getSharedInstance(context).getSessionManager().endCurrentSession(true);
+            return;
+        }
         renderCallbacks(videoVM.callbacks);
         boolean hasBecomeActive = !isActive && videoVM.isActive;
         if (videoVM.videoUrl != null && (!videoVM.videoUrl.equals(videoUrl) || hasBecomeActive) && videoVM.shouldPlay) {
