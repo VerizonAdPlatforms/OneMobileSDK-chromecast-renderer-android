@@ -1,3 +1,23 @@
+/*
+ * Copyright (c) 2017. Oath.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ * associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+ * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package com.aol.mobile.sdk.chromecast;
 
 
@@ -36,7 +56,7 @@ public final class CastRendererImpl implements CastRenderer {
     private boolean isPlaybackStarted;
     private boolean isActive;
 
-    public CastRendererImpl(@NonNull  Context context) {
+    public CastRendererImpl(@NonNull Context context) {
         this.context = context;
         view = new ImageView(context);
         view.setImageResource(R.drawable.quantum_ic_cast_white_36);
@@ -101,6 +121,18 @@ public final class CastRendererImpl implements CastRenderer {
             public void onAdBreakStatusUpdated() {
             }
         });
+    }
+
+    private static String getUrlType(String url) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension.equalsIgnoreCase("m3u8")) {
+            return "application/x-mpegURL";
+        }
+        String type = null;
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
     }
 
     private void renderCallbacks(final @NonNull CastVideoVM.Callbacks callbacks) {
@@ -227,18 +259,6 @@ public final class CastRendererImpl implements CastRenderer {
     @Override
     public View getViewport() {
         return view;
-    }
-
-    private static String getUrlType(String url) {
-        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        if (extension.equalsIgnoreCase("m3u8")) {
-            return "application/x-mpegURL";
-        }
-        String type = null;
-        if (extension != null) {
-            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-        }
-        return type;
     }
 
 }
