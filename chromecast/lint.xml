@@ -20,4 +20,6 @@
 
 <lint>
     <issue id="InflateParams" severity="ignore"/>
+    <issue id="ContentDescription" severity="ignore"/>
+    <issue id="Overdraw" severity="ignore"/>
 </lint>
