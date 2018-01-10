@@ -24,9 +24,9 @@ package com.aol.mobile.sdk.chromecast;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.ImageView;
 
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaLoadOptions;
@@ -44,7 +44,9 @@ public final class CastRendererImpl implements CastRenderer {
     @NonNull
     private RemoteMediaClient remoteMediaClient;
     @NonNull
-    private ImageView view;
+    private View view;
+    @NonNull
+    private View castIcon;
     @Nullable
     private String videoUrl;
 
@@ -58,10 +60,9 @@ public final class CastRendererImpl implements CastRenderer {
 
     public CastRendererImpl(@NonNull Context context) {
         this.context = context;
-        view = new ImageView(context);
-        view.setImageResource(R.drawable.quantum_ic_cast_white_36);
-        view.setScaleType(ImageView.ScaleType.CENTER);
-        view.setBackgroundColor(0xFF000000);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.cast_view, null);
+        castIcon = view.findViewById(R.id.cast_icon);
         remoteMediaClient = CastContext.getSharedInstance(context).getSessionManager()
                 .getCurrentCastSession().getRemoteMediaClient();
         remoteMediaClient.addListener(new RemoteMediaClient.Listener() {
@@ -156,6 +157,7 @@ public final class CastRendererImpl implements CastRenderer {
     @Override
     @NonNull
     public void render(@NonNull CastVideoVM videoVM) {
+        castIcon.setVisibility(videoVM.isAd ? View.VISIBLE : View.INVISIBLE);
         if (!videoVM.isCasting) {
             CastContext.getSharedInstance(context).getSessionManager().endCurrentSession(true);
             return;
