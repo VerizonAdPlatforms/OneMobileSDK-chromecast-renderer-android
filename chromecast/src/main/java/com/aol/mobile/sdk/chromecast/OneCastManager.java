@@ -40,7 +40,7 @@ import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.SessionManagerListener;
 
-public class OneCastButtonFactory {
+public class OneCastManager {
 
     private SessionManagerListener sessionManagerListener;
 
@@ -129,6 +129,10 @@ public class OneCastButtonFactory {
         void enableCast();
 
         void disableCast();
+    }
+
+    public static final void stopCasting(Context context) {
+        CastContext.getSharedInstance(context).getSessionManager().endCurrentSession(true);
     }
 
 }

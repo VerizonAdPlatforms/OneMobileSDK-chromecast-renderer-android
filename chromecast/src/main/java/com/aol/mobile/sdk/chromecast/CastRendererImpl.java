@@ -158,10 +158,6 @@ public final class CastRendererImpl implements CastRenderer {
     @NonNull
     public void render(@NonNull CastVideoVM videoVM) {
         castIcon.setVisibility(videoVM.isAd ? View.VISIBLE : View.INVISIBLE);
-        if (!videoVM.isCasting) {
-            CastContext.getSharedInstance(context).getSessionManager().endCurrentSession(true);
-            return;
-        }
         renderCallbacks(videoVM.callbacks);
         boolean hasBecomeActive = !isActive && videoVM.isActive;
         if (videoVM.videoUrl != null && (!videoVM.videoUrl.equals(videoUrl) || hasBecomeActive) && videoVM.shouldPlay) {
