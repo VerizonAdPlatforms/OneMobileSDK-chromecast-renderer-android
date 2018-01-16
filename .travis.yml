@@ -1,6 +1,4 @@
-sudo: false
 jdk: oraclejdk8
-
 language: android
 
 android:
@@ -19,6 +17,9 @@ android:
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
+
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -40,7 +41,7 @@ deploy:
       branch: master
 
   - provider: script
-    script: ./gradlew —rerun-tasks gitPublishPush
+    script: ./gradlew gitPublishPush
     skip_cleanup: true
     on:
       tags: true

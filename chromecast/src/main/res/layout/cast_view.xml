@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:text="@string/cast_view_text"
         android:textColor="#FFFFFFFF"
-        android:paddingBottom="32dp"
+        android:paddingBottom="48dp"
         android:layout_above="@+id/cast_icon">
     </TextView>
     <ImageView

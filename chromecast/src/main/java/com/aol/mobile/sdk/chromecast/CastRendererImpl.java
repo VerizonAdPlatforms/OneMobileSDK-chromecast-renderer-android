@@ -37,8 +37,6 @@ import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 
 public final class CastRendererImpl implements CastRenderer {
 
-    @NonNull
-    private final Context context;
     @Nullable
     private CastVideoVM.Callbacks callbacks;
     @NonNull
@@ -59,7 +57,6 @@ public final class CastRendererImpl implements CastRenderer {
     private boolean isActive;
 
     public CastRendererImpl(@NonNull Context context) {
-        this.context = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.cast_view, null);
         castIcon = view.findViewById(R.id.cast_icon);
