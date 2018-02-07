@@ -46,15 +46,8 @@ public class CastOptionsProvider implements OptionsProvider {
                 .setNotificationOptions(notificationOptions)
                 .build();
 
-        String receiverApplicationId = null;
-        try {
-            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            receiverApplicationId = ai.metaData.getString("com.aol.mobile.sdk.chromecast.ReceiverApplicationId");
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-
         CastOptions castOptions = new CastOptions.Builder()
-                .setReceiverApplicationId(receiverApplicationId)
+                .setReceiverApplicationId(context.getString(R.string.app_id))
                 .setCastMediaOptions(mediaOptions)
                 .setEnableReconnectionService(true)
                 .build();
