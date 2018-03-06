@@ -6,19 +6,10 @@
 package com.aol.mobile.sdk.chromecast;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.MediaRouteButton;
-import android.util.StateSet;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.gms.cast.framework.CastButtonFactory;
@@ -38,26 +29,13 @@ public class OneCastManager {
 
     public View constructCastButton() {
         CastContext.getSharedInstance(context);
-        final MediaRouteButton castButton = (MediaRouteButton) LayoutInflater.from(context).inflate(R.layout.cast_button, null);
-        CastButtonFactory.setUpMediaRouteButton(context, castButton);
-        castButton.setBackground(getCastBackground());
-        return castButton;
-    }
 
-    private Drawable getCastBackground() {
-        Resources resources = context.getResources();
-        StateListDrawable background = new StateListDrawable();
-        Bitmap enabledBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_cast_background);
-        Drawable drawable = resources.getDrawable(R.drawable.ic_cast_background);
-        Bitmap disabledBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(disabledBitmap);
-        Paint paint = new Paint();
-        paint.setAlpha(77);
-        canvas.drawBitmap(enabledBitmap, 0, 0, paint);
-        BitmapDrawable disabled = new BitmapDrawable(resources, disabledBitmap);
-        background.addState(new int[]{-android.R.attr.state_enabled}, disabled);
-        background.addState(StateSet.WILD_CARD, drawable);
-        return background;
+        final MediaRouteButton castButton = new MediaRouteButton(context);
+        castButton.setRemoteIndicatorDrawable(null);
+        castButton.setBackground(ContextCompat.getDrawable(context, R.drawable.selector_cast_button));
+        CastButtonFactory.setUpMediaRouteButton(context, castButton);
+
+        return castButton;
     }
 
     public void stopCasting() {
