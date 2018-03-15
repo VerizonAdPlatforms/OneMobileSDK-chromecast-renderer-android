@@ -1,1 +1,1 @@
-# OneMobileSDK-chromecast-renderer-android
+# OneMobileSDK-chromecast-renderer-android [![Build Status](https://travis-ci.org/aol-public/OneMobileSDK-chromecast-renderer-android.svg?branch=master)](https://travis-ci.org/aol-public/OneMobileSDK-chromecast-renderer-android)
