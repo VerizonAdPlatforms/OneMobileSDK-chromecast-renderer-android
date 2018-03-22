@@ -15,6 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.MediaRouteButton;
 import android.util.StateSet;
 import android.view.LayoutInflater;
@@ -26,18 +27,24 @@ import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.SessionManagerListener;
 
 public class OneCastManager {
-
+    @NonNull
+    private Context context;
+    @Nullable
     private SessionManagerListener sessionManagerListener;
 
-    public static View getCastButton(@NonNull Context context) {
+    public OneCastManager(@NonNull Context context) {
+        this.context = context;
+    }
+
+    public View constructCastButton() {
         CastContext.getSharedInstance(context);
         final MediaRouteButton castButton = (MediaRouteButton) LayoutInflater.from(context).inflate(R.layout.cast_button, null);
         CastButtonFactory.setUpMediaRouteButton(context, castButton);
-        castButton.setBackground(getCastBackground(context));
+        castButton.setBackground(getCastBackground());
         return castButton;
     }
 
-    private static Drawable getCastBackground(@NonNull Context context) {
+    private Drawable getCastBackground() {
         Resources resources = context.getResources();
         StateListDrawable background = new StateListDrawable();
         Bitmap enabledBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_cast_background);
@@ -53,11 +60,11 @@ public class OneCastManager {
         return background;
     }
 
-    public static final void stopCasting(Context context) {
+    public void stopCasting() {
         CastContext.getSharedInstance(context).getSessionManager().endCurrentSession(true);
     }
 
-    public void addCastButtonListener(@NonNull Context context, final CastButtonListener listener) {
+    public void setCastListener(final CastListener listener) {
         CastContext castContext = CastContext.getSharedInstance(context);
         if (sessionManagerListener != null) {
             castContext.getSessionManager().removeSessionManagerListener(sessionManagerListener, CastSession.class);
@@ -113,11 +120,9 @@ public class OneCastManager {
         }
     }
 
-    public interface CastButtonListener {
-
+    public interface CastListener {
         void enableCast();
 
         void disableCast();
     }
-
 }
