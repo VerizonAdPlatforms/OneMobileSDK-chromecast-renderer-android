@@ -3,26 +3,26 @@
  * Licensed under the terms of the MIT License. See LICENSE.md file in project root for terms.
  */
 
-ext {
-    // Javadoc configuration
-    JAVADOC_TITLE = "OneMobileSDK chromecast Javadoc"
+apply plugin: 'android-ci-library'
 
-    // Maven
-    GROUP_ID = 'com.aol.one.publishers.android'
-    ARTIFACT_ID = 'chromecast'
-    LIBRARY_VERSION = GIT_BASED_VERSION
-
-    MINIFY_LIB = false
+androidCi {
+    groupId = 'com.aol.one.publishers.android'
+    artifactId = 'chromecast'
+    githubRepo = 'aol-public/OneMobileSDK-releases-android'
+    apiTrimNamespaces.add("com.aol.mobile.sdk.player")
 }
-
-apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/android.gradle'
-apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/javadoc.gradle'
-apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/sources.gradle'
-apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/github-maven.gradle'
-
 dependencies {
-    compileOnly "com.android.support:support-v4:$SUPPORT_VERSION"
-    implementation "com.android.support:mediarouter-v7:$SUPPORT_VERSION"
+    compileOnly "com.android.support:support-v4:$support_version"
+    implementation "com.android.support:mediarouter-v7:$support_version"
     //noinspection GradleDependency
     implementation 'com.google.android.gms:play-services-cast-framework:11.8.0'
+}
+configurations.all {
+    resolutionStrategy {
+        eachDependency { details ->
+            if (details.requested.group == 'com.android.support') {
+                details.useVersion support_version
+            }
+        }
+    }
 }

@@ -7,6 +7,7 @@ package com.aol.mobile.sdk.chromecast;
 
 import android.content.Context;
 
+import com.aol.mobile.sdk.annotations.PublicApi;
 import com.google.android.gms.cast.framework.CastOptions;
 import com.google.android.gms.cast.framework.OptionsProvider;
 import com.google.android.gms.cast.framework.SessionProvider;
@@ -17,6 +18,7 @@ import com.google.android.gms.cast.framework.media.NotificationOptions;
 import java.util.Arrays;
 import java.util.List;
 
+@PublicApi
 public class CastOptionsProvider implements OptionsProvider {
     @Override
     public CastOptions getCastOptions(Context context) {

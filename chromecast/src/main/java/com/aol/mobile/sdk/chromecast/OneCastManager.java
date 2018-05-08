@@ -12,11 +12,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.MediaRouteButton;
 import android.view.View;
 
+import com.aol.mobile.sdk.annotations.PublicApi;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.SessionManagerListener;
 
+@PublicApi
 public class OneCastManager {
     @NonNull
     private Context context;

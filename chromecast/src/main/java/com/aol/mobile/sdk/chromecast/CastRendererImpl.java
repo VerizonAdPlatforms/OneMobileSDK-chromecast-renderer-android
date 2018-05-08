@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 
+import com.aol.mobile.sdk.annotations.PublicApi;
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaLoadOptions;
 import com.google.android.gms.cast.MediaMetadata;
@@ -20,8 +21,8 @@ import com.google.android.gms.cast.MediaStatus;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 
+@PublicApi
 public final class CastRendererImpl implements CastRenderer {
-
     @Nullable
     private CastVideoVM.Callbacks callbacks;
     @NonNull
