@@ -7,6 +7,9 @@ package com.aol.mobile.sdk.chromecast;
 
 import android.support.annotation.Nullable;
 
+import com.aol.mobile.sdk.annotations.PublicApi;
+
+@PublicApi
 public class CastVideoVM {
     @Nullable
     public String videoUrl;

@@ -3,32 +3,35 @@
  * Licensed under the terms of the MIT License. See LICENSE.md file in project root for terms.
  */
 
-repositories {
-    google()
-    jcenter()
-}
-
 buildscript {
-    apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/env-props.gradle'
-
+    ext {
+        kotlin_version = '1.2.41'
+        support_version = '27.1.1'
+        exo_version = '2.7.1'
+    }
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://raw.github.com/aol-public/OneMobileSDK-releases-android/maven/'
+        }
     }
-
     dependencies {
-        classpath ANDROID_GRADLE_PLUGIN
-        classpath ANDROID_MAVEN_PLUGIN
-        classpath KOTLIN_PLUGIN
-        classpath GIT_PUBLISH_PLUGIN
+        classpath "com.aol.one.publishers.android:api-tracker-plugin:1.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 allprojects {
-    apply from: 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-tools-android/master/env-props.gradle'
-
     repositories {
+        maven {
+            url 'https://raw.githubusercontent.com/aol-public/OneMobileSDK-releases-android/maven/'
+        }
         google()
         jcenter()
     }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
