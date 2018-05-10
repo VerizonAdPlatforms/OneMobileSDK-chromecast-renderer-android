@@ -14,8 +14,7 @@ androidCi {
 dependencies {
     compileOnly "com.android.support:support-v4:$support_version"
     implementation "com.android.support:mediarouter-v7:$support_version"
-    //noinspection GradleDependency
-    implementation 'com.google.android.gms:play-services-cast-framework:11.8.0'
+    implementation 'com.google.android.gms:play-services-cast-framework:15.0.1'
 }
 configurations.all {
     resolutionStrategy {
