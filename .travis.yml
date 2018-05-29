@@ -1,51 +1,37 @@
 jdk: oraclejdk8
 language: android
-
 android:
   components:
-    # Using latest platform tools
-    - tools
-    - platform-tools
-
-    # The BuildTools version used by your project
-    - build-tools-27.0.3
-
-    # The SDK version used to compile your project
-    - android-27
-
-    # Additional components
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-
+  - tools
+  - platform-tools
+  - build-tools-27.0.3
+  - android-27
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - extra-android-m2repository
 before_install:
-  - yes | sdkmanager "platforms;android-27"
-
+- yes | sdkmanager "platforms;android-27"
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
-
-script: ./gradlew lint test
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache"
+script: "./gradlew lint test"
 deploy:
-  - provider: script
-    script: ./gradlew gitPublishPush
-    skip_cleanup: true
-    on:
-      tags: true
-  - provider: script
-    script: ./gradlew gitPublishPush
-    skip_cleanup: true
-    on:
-      branch: master
-
+- provider: script
+  script: "./gradlew gitPublishPush"
+  skip_cleanup: true
+  on:
+    tags: true
+- provider: script
+  script: "./gradlew gitPublishPush"
+  skip_cleanup: true
+  on:
+    branch: master
 notifications:
   email: false
   slack:
-    secure: qvapqTfI5kZEL6yagjLtrj2QvDl2RbSMFX3/WnM9BzzVYk7C1pvpUqdP+GYpGzG4I/hYnOXRnu93trlrV5Tr6zqWKUvSUe9SOoKFdE1WtmIl3/WVRj9LhQUB4jpfJOP0Gn9CqeH/QMFEyeWIxYE9sRTbNCS0fzz8VGznev0gPZGDnqJ7S5YwGdM4BFBxTsvAdrF/a031IEPTc0zjgBbWygLAupdGu5prz2h/TXzmYiKO6MfqzIsLKEUMHRtbSPZ7hiy9CEKUiaXPV+XAdN1txh4Z2VmFvm+RMjROL5lmQm06mwnVkks3Apft/9Wh22UvHvlWt6Pqjjx8fT6BTxYFjmx21DsIabew0FXW/RT3cxW0KnognJ/e7WL8iXB65e76xGN/WsYyLe0rOlV49KUNbNn+ig/kTYy8XcCPxWGiveE2V0Zn30hE9MLlznFUZztgIwUaaCP0oWcyXmKLn37wWOaTSD3WE78FccWM4Uf9TFOwzAMH6uCVjBFoVfwJpDCwpJzxIseOu+DTcY3QWStuPDkZSpjoab34pTVf7vsFo5Iqf1+1FMIeUxYV+h3B0Pu0l8aHgR8EKif+NMk4KvsFx6T31zo21I7sq/7B/Z1+4/Sq9EdGtLH7LpShEfvqmdz8MQxa6K4RYGj/GIqMoogrLre7qyJ2t93t+NBtPc5d8hU=
+    secure: P5fkZJxfevD5AKvjbS+NP/O7DOalQUKIuRwJ+77yAPx2v/bE1j/Zik4NqnDGLaprjrgdzlp6ldgWK34t+3DUJ6MXR0LaL4FaFJt4OTfOtKsjdhLd6z6CUihEOhLXdgHK73JEILV/o7e2T4Zx4dPDQxgB4Owz4vCvKo7VjoPnBEYYPFSqoxOitfb94a0aGpfijRJAD/EWAoSCPnuLWXXZ8cz/H+an4XD4wHTUbDt3y2x26PZpRLU8tpAVrrv9hfKFk50YAa3lBPrgsdln6ErzF6YvjBGaqazFH22UDaNH8rL5seuBoawqOj2tZSgkQJhkpGh5Nded8CgeTMTOGRzumBtpCJrGnUhiyHRWIH+dJ+tnaHNJWulYUO9g2hHpXEkC/uojuKlvnLzjz2v8E37ErGaSOMGCEMsLG5XpCV4mQIgR/J1GA1dEdPkX3yBxG/5bKSg4j9YLDtOisJhg0ZbaUY1Ct+G2u0GfcpUJuLAVIY4ZC7+70sD0N2ya5Z5+7ZcPv6iKQa7ukpamlZDV8dC+les/1ceHkN+VdCS7hM0eAz+mDBx47H7SyYEC9kIymhI7qWZdO4F00Xuu0XL9lmJ8G2BuQBvjCQZUuTvOXKgdG4u+19x2ePDWeUK9GXrnvw9Qmez+0/zelluUW8JWP4me1eESqU6wP9PLzsTDdtXcY50=
